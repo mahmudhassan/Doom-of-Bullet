@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+
         //Check for ground to prevent jump abuse
         if (controller.isGrounded)
         {
