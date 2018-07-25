@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using RootMotion.FinalIK;
 using UnityEngine;
 
 public class CameraRotation : MonoBehaviour {
@@ -14,6 +15,8 @@ public class CameraRotation : MonoBehaviour {
     Vector2 smoothV;
     public float sensitivity = 3.0f;
     public float smoothing = 1.0f;
+    public Transform aimLoc;
+    public AimIK aimIk;
     GameObject character;
 
 
@@ -43,5 +46,11 @@ public class CameraRotation : MonoBehaviour {
 
         transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
         character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, Vector3.up);
+    }
+
+    void LateUpdate()
+    {
+        //Set the aimer pos to the aimLoc pos connected to camera
+        aimIk.solver.IKPosition = aimLoc.position;
     }
 }
