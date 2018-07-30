@@ -15,11 +15,13 @@ public class Movement : MonoBehaviour {
     public float gravity = 20.0F;
     private Vector3 moveDirection = Vector3.zero;
     CharacterController controller;
+    Animator anim;
 
     // Use this for initialization
     void Start () {
         //Get The Controller From The Player GameObject
         controller = GetComponent<CharacterController>();
+        anim = gameObject.GetComponentInChildren<Animator>();
     }
 	
 	// Update is called once per frame
@@ -32,6 +34,10 @@ public class Movement : MonoBehaviour {
             moveDirection = new Vector3(MoveJoystick.inputVector.x, 0, MoveJoystick.inputVector.y);
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
+
+            //Controlls forward back
+            anim.SetFloat("Speed", MoveJoystick.inputVector.y);
+            anim.SetFloat("Side", MoveJoystick.inputVector.x);
 
             //Jumping Logic (grab input from jump button reference)
             if (JumpButton.Pressed)
