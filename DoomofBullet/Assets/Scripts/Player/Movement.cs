@@ -7,13 +7,14 @@ public class Movement : MonoBehaviour {
     //Mobile Touch Input Components
     public FixedJoystick MoveJoystick;
     public FixedButton JumpButton;
-    //public FixedButton CrouchButton;
+    public FixedButton CrouchButton;
 
     //Vars & Properties
     public float speed = 6.0F;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
     private Vector3 moveDirection = Vector3.zero;
+    private bool isCrouching = false;
     CharacterController controller;
     Animator anim;
 
@@ -40,9 +41,20 @@ public class Movement : MonoBehaviour {
             anim.SetFloat("Side", MoveJoystick.inputVector.x);
 
             //Jumping Logic (grab input from jump button reference)
-            if (JumpButton.Pressed)
+            if (JumpButton.Pressed && !isCrouching)
             {
+                anim.SetTrigger("JumpT");
                 moveDirection.y = jumpSpeed;
+            } else if (CrouchButton.Pressed)
+            {
+                //isCrouching = !isCrouching;
+                if (!isCrouching) {
+                    isCrouching = true;
+                    anim.SetBool("Crouching", isCrouching);
+                } else {
+                    isCrouching = false;
+                    anim.SetBool("Crouching", isCrouching);
+                }
             }
         }
 
