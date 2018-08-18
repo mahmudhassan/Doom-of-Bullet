@@ -5,6 +5,7 @@ public class FixedButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
     [HideInInspector]
     public bool Pressed;
+    public bool hasBeenShot = false;
 
     // Use this for initialization
     void Start()
@@ -25,6 +26,8 @@ public class FixedButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        //Reset bools on up
         Pressed = false;
+        hasBeenShot = false;
     }
 }

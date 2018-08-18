@@ -25,4 +25,14 @@ public class MenuFunctions : MonoBehaviour {
     {
         Application.Quit();
     }
+
+    public void crouchButton()
+    {
+
+    }
+
+    public void jumpButton()
+    {
+
+    }
 }

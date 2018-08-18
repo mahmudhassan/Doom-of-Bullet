@@ -39,27 +39,36 @@ public class Movement : MonoBehaviour {
             //Controlls forward back
             anim.SetFloat("Speed", MoveJoystick.inputVector.y);
             anim.SetFloat("Side", MoveJoystick.inputVector.x);
-
-            //Jumping Logic (grab input from jump button reference)
-            if (JumpButton.Pressed && !isCrouching)
-            {
-                anim.SetTrigger("JumpT");
-                moveDirection.y = jumpSpeed;
-            } else if (CrouchButton.Pressed)
-            {
-                //isCrouching = !isCrouching;
-                if (!isCrouching) {
-                    isCrouching = true;
-                    anim.SetBool("Crouching", isCrouching);
-                } else {
-                    isCrouching = false;
-                    anim.SetBool("Crouching", isCrouching);
-                }
-            }
         }
 
         //Apply movements and simulate gravity
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
+    }
+
+    //Methods called from GUI buttons
+    public void onJump()
+    {
+        if (!isCrouching && controller.isGrounded)
+        {
+            anim.SetTrigger("JumpT");
+            moveDirection.y = jumpSpeed;
+            controller.Move(moveDirection * Time.deltaTime);
+        }
+    }
+
+    public void onCrouch()
+    {
+        //isCrouching = !isCrouching;
+        if (!isCrouching)
+        {
+            isCrouching = true;
+            anim.SetBool("Crouching", isCrouching);
+        }
+        else
+        {
+            isCrouching = false;
+            anim.SetBool("Crouching", isCrouching);
+        }
     }
 }
