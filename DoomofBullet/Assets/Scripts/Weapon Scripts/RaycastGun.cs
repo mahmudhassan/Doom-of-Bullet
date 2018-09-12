@@ -61,18 +61,21 @@ public class RaycastGun : MonoBehaviour {
             return;
         }
 
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        /*
+        if (fireButton.Pressed && Time.time >= nextTimeToFire)
         {
             nextTimeToFire = Time.time + (1f / rateOfFire);
             shoot();
             currentAmmo -= 1;
         }
+        */
 
-        /*
         if (isAutomatic)
         { //Full-Automatic Path for ballistic & hitscan
+            Debug.Log("Test01");
             if (fireButton.Pressed && ammo > 0)
             {
+                Debug.Log("Ammo > 0");
                 //Mechanism for full auto/rate of fire
                 if (Time.time - lastFired > 1 / rateOfFire)
                 {
@@ -97,7 +100,7 @@ public class RaycastGun : MonoBehaviour {
                 }
             }
         } //Closes main structure   
-        */
+        
     }
 
     IEnumerator Reload()
@@ -114,6 +117,8 @@ public class RaycastGun : MonoBehaviour {
     }
 
     public void shoot() {
+        currentAmmo -= 1;
+
         //The Ray Itself
         Ray ray = new Ray(gunTip.position, gunTip.forward);
         RaycastHit hit;
@@ -123,8 +128,10 @@ public class RaycastGun : MonoBehaviour {
         Debug.DrawRay(gunTip.position, gunTip.forward * 500, Color.yellow);
         if(weaponSound != null)
             weaponSound.Play();
-        if(flash != null)
+        if (flash != null)
             flash.Play();
+        else
+            Debug.LogError("No weapon flash found");
 
         //What Happens When Ray Hits Player 
         if (Physics.Raycast(ray, out hit, range))
@@ -150,7 +157,7 @@ public class RaycastGun : MonoBehaviour {
     {
         readyToFire = false;
         //Use rate of fire as rate for semi autos
-        yield return new WaitForSeconds(rateOfFire);
+        yield return new WaitForSeconds(1/rateOfFire);
         readyToFire = true;
     }
 }
